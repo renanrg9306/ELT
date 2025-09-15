@@ -20,8 +20,6 @@ for td_tag in target_table.find_all('td'): # Combining two columns happens in th
 target_table.prettify() # We use prettify 
 
 target_table_tbody = target_table.find('tbody')  # Working only with the table body
-
-
 data = [] # variable when the row information will be saved.
 for row in target_table_tbody.find_all('tr'): # this loop is to go over every row.
     row_data = [] # Temporary variable that will save the current value.
@@ -32,5 +30,19 @@ for row in target_table_tbody.find_all('tr'): # this loop is to go over every ro
            row_data.append('') # assigning empty value
     data.append(row_data)
 
-df = pd.DataFrame(data=data,columns=['Country/Terretory','UN Region','Estimate1','Year1','Estimate2','Year2','Estimate3','Year3'])
-df.to_csv('./WebScraping.csv')
+data_cleaned = []
+for row in data:
+    clean_data_row = []
+    for cell in row:
+        if cell != '—':
+            clean_data_row.append(cell)
+        else:
+            clean_data_row.append('')
+    data_cleaned.append(clean_data_row)
+
+filterList = list(filter(None,data_cleaned))
+header =['Country/Terretory','UN Region','Estimate1','Year1','Estimate2','Year2','Estimate3','Year3']
+
+df = pd.DataFrame(filterList,columns=header)
+print(df)
+df.to_csv('./Countries.csv')
