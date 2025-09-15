@@ -27,9 +27,9 @@ for row in target_table_tbody.find_all('tr'): # this loop is to go over every ro
     row_data = [] # Temporary variable that will save the current value.
     for cell in row.find_all(['td']): # Going over each cell in each row
         colspan = int(cell.get('colspan',1)) # get colspan value, if not specified 
-        row_data.append(cell.get_text(strip=True))
-        for _ in range(colspan - 1):
-           row_data.append('')
+        row_data.append(cell.get_text(strip=True))# add the value of each cell to the row
+        for _ in range(colspan - 1): # going over every value that has colspan
+           row_data.append('') # assigning empty value
     data.append(row_data)
 
 df = pd.DataFrame(data=data,columns=['Country/Terretory','UN Region','Estimate1','Year1','Estimate2','Year2','Estimate3','Year3'])
